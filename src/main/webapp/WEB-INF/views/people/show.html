@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователь</title>
+</head>
+<body>
+<p th:text="${person.getFullName()} + ', ' + ${person.getBirthYear()}"></p>
+
+<div th:if="${books.isEmpty()}">
+    <span>Человек пока не взял ни одной книги</span>
+<!--    <hr/>-->
+<!--    <form th:method="PATCH" th:action="@{/people/{id}/assign(id=${person.getId()})}">-->
+<!--        <label for="book">Выберите книгу:</label>-->
+<!--        <select th:object="${book}" th:field="*{id}" id="book">-->
+<!--            <option th:each="book : ${allBooks}" th:value="${book.getId()}"-->
+<!--                    th:text="${book.getTitle()}"></option>-->
+<!--        </select>-->
+<!--        <input type="submit" value="Присвоить книгу"/>-->
+<!--    </form>-->
+</div>
+
+<div th:if="${!books.isEmpty()}">
+    <hr/>
+    <b>Книги: </b>
+    <br/>
+    <table th:each="book : ${books}">
+        <tr>
+            <td>
+                <span th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"
+                      th:style="${book.isExpired()} ? 'color:red' : 'color:black'">
+                </span>
+            </td>
+        </tr>
+    </table>
+    <hr/>
+</div>
+
+<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Удалить"/>
+</form>
+</body>
+</html>
